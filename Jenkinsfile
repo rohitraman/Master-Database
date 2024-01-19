@@ -64,23 +64,23 @@ pipeline {
                 }
 
                 script {
-                    bat 'kubectl apply -f db-volume.yml'
+                    bat 'kubectl apply -f deployments/db-volume.yml'
                 }
 
                 script {
-                    bat 'kubectl apply -f db-deployment.yml'
+                    bat 'kubectl apply -f deployments/db-deployment.yml'
                 }
 
                 script {
-                    bat 'kubectl apply -f db-service.yml'
+                    bat 'kubectl apply -f deployments/db-service.yml'
                 }
 
                 script {
-                    bat 'kubectl apply -f backend-deployment.yml'
+                    bat 'kubectl apply -f deployments/backend-deployment.yml'
                 }
 
                 script {
-                    bat 'kubectl apply -f backend-service.yml'
+                    bat 'kubectl apply -f deployments/backend-service.yml'
                 }
             }
         }
