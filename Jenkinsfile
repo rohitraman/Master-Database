@@ -30,29 +30,39 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'kubectl delete deployment --all'
+                        withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                            bat 'kubectl delete deployment --all'
+                        }
                     }
                 }
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'kubectl delete service backend-service'
+                        withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                            bat 'kubectl delete service backend-service'
+                        }
                     }
                 }
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'kubectl delete service mysql'
+                        withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                            bat 'kubectl delete service mysql'
+                        }
                     }
                 }
 
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'kubectl delete pvc --all'
+                        withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                            bat 'kubectl delete pvc --all'
+                        }
                     }
                 }
 
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'kubectl delete pv --all'
+                        withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                            bat 'kubectl delete pv --all'
+                        }
                     }
                 }
             }
@@ -60,23 +70,33 @@ pipeline {
         stage ('Run Kubernetes Cluster') {
             steps {
                 script {
-                    bat 'kubectl apply -f deployments/db-volume.yml'
+                    withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                        bat 'kubectl apply -f deployments/db-volume.yml'
+                    }
                 }
 
                 script {
-                    bat 'kubectl apply -f deployments/db-deployment.yml'
+                    withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                        bat 'kubectl apply -f deployments/db-deployment.yml'
+                    }
                 }
 
                 script {
-                    bat 'kubectl apply -f deployments/db-service.yml'
+                    withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                        bat 'kubectl apply -f deployments/db-service.yml'
+                    }
                 }
 
                 script {
-                    bat 'kubectl apply -f deployments/backend-deployment.yml'
+                    withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                        bat 'kubectl apply -f deployments/backend-deployment.yml'
+                    }
                 }
 
                 script {
-                    bat 'kubectl apply -f deployments/backend-service.yml'
+                    withCredentials([file(credentialsId : 'kubeconfig', variable : 'KUBECONFIG')]) {
+                        bat 'kubectl apply -f deployments/backend-service.yml'
+                    }
                 }
             }
         }
