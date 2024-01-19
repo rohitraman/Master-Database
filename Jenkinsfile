@@ -60,10 +60,6 @@ pipeline {
         stage ('Run Kubernetes Cluster') {
             steps {
                 script {
-                    bat 'cd deployments'
-                }
-
-                script {
                     bat 'kubectl apply -f deployments/db-volume.yml'
                 }
 
