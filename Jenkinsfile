@@ -17,11 +17,11 @@ pipeline {
                 }
             }
         }
-        stage('Minikube start') {
+        stage('Docker push') {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'minikube start'
+                        bat 'docker push rohitraman/master-server'
                     }
                 }
             }
