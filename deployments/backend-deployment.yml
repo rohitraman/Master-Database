@@ -1,0 +1,27 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: rohitraman/master-server
+        env:
+        - name: SPRING_CLOUD_VAULT_HOST
+          value: "host.docker.internal"
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql/masterDB?createDatabaseIfNotExist=true&useSSL=false
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+        ports:
+        - containerPort: 5792
