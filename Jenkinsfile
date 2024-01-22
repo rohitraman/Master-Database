@@ -1,6 +1,10 @@
 pipeline {
     agent any
-    
+    environment {
+        registry = "rohitraman/master-server"
+        registryCredential = 'docker'
+        dockerImage = ''
+    }
     stages {
         stage('Build') {
             steps {
@@ -13,7 +17,7 @@ pipeline {
         stage('Build Docker image') {
             steps {
                 script {
-                    bat 'docker build -t rohitraman/master-server .'
+                    dockerImage = docker.build registry
                 }
             }
         }
@@ -21,7 +25,10 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                        bat 'docker push rohitraman/master-server'
+                        docker.withRegistry('', registryCredential) {
+                            dockerImage.push();
+                        }
+                            
                     }
                 }
             }
