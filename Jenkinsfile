@@ -33,6 +33,13 @@ pipeline {
                 }
             }
         }
+        stage('Remove Docker image') {
+            steps {
+                script {
+                    bat 'docker rmi $registry'
+                }
+            }
+        }
         stage ('Delete previous deployment') {
             steps {
                 script {
